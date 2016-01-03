@@ -1,0 +1,13 @@
+﻿@using MvcPWy.Models;
+@model MvcPWy.Models.Contact
+
+<p>Are you sure?</p>
+@using (Ajax.BeginForm(StandardAjaxOptions.AjaxOptions("POST", "content", false, "ShowToast('Contact deleted!','')")))
+{
+    @Html.HiddenFor(m => m.Id)
+    <input id="deleteSubmit" type="submit" class="hidden" value="" />
+    <div class="buttons">
+        <paper-button id="dismiss" dialog-dismiss>Cancel</paper-button>
+        <paper-button id="confirm" onclick="submitForm('#deleteSubmit')" dialog-confirm autofocus>Procede</paper-button>
+    </div>
+}

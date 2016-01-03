@@ -1,0 +1,232 @@
+﻿@model IEnumerable<MvcPWy.Models.IIndex>
+@using MvcPWy.Models
+
+@{
+    var controller = ViewData["controller"].ToString();
+}
+<div class="addElement">
+    @Ajax.PolymerPaperActionIcon("search", "Search", controller, null, StandardAjaxOptions.AjaxOptions("GET", "search", false, "ShowDialog('#search')")
+    , new Dictionary<string, object> { { "alt", "Search" } })
+
+    @if (ViewBag.Filtered == "Y")
+    {
+        @Ajax.PolymerPaperActionIcon("clear", "Index", "HitList", new { Class = controller }, StandardAjaxOptions.AjaxOptions(true),
+       new Dictionary<string, object> { { "alt", "Clear result" } })
+    }
+
+    @if (controller != "User")
+    {
+        @Ajax.PolymerPaperActionIcon("add", "Create", controller, new
+   {
+       SortOrder = ViewBag.SortOrder,
+       SortDirection = ViewBag.SortDirection,
+       page = ViewBag.ActualPage,
+       search = ViewBag.Search
+   }, StandardAjaxOptions.AjaxOptions(), new Dictionary<string, object> { { "alt", "Create New" }, { "class", "icon-small" } })
+    }
+    @if (Model.Count() > 0)
+    {
+        <div style="float:right; padding-top: 20px;" class="mobileHide">
+            Page @ViewBag.ActualPage of @ViewBag.TotalPage (@ViewBag.TotalResult total records)
+        </div>
+    }
+</div>
+@if (Model.Count() > 0)
+{
+    var props = GenericHelpers.GetHitListProperty(Model);
+    <table class="table">
+        <tr class="tb-header">
+            @foreach (var property in props)
+            {
+                if (property.Attribute.Hit)
+                {
+                    <th class="@property.Attribute.HitMobile">
+                        @if (property.Attribute.Ordered)
+                        {
+                            @Ajax.ActionLink(GenericHelpers.GetDisplayName(property.Property), "Index", "HitList", new
+                       {
+                           SortOrder = property.Property.Name,
+                           SortDirection = ViewBag.SortOrder == property.Property.Name
+                 && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC",
+                           Class = controller
+                       }, StandardAjaxOptions.AjaxOptions(true))
+                            if (ViewBag.SortOrder == property.Property.Name)
+                            {
+                                if (ViewBag.SortDirection == "ASC")
+                                {
+                                    <img alt="Ascending order" src="~/Content/Images/chevron-double-up.png" />
+                                }
+                                else
+                                {
+                                    <img alt="Descending order" src="~/Content/Images/chevron-double-down.png" />
+                                }
+                            }
+                        }
+                        else
+                        {
+                            @Html.DisplayName(GenericHelpers.GetDisplayName(property.Property))
+                        }
+                    </th>
+                }
+            }
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                @foreach (var property in props)
+                {
+                    if (property.Attribute.Hit)
+                    {
+                        <td class="@property.Attribute.HitMobile">
+                            @Html.DisplayFor(property.Property.GetValue(item))
+                        </td>
+                    }
+                }
+                <td>
+                    @Ajax.PolymerPaperActionIcon("info-outline", "Detail", controller, null, 
+                   StandardAjaxOptions.AjaxOptions(true), new Dictionary<string, object> { { "alt", "View" } })
+                    @if (controller != "User")
+                    {
+                        @Ajax.PolymerPaperActionIcon("create", "Edit", controller, null, StandardAjaxOptions.AjaxOptions(true),
+                            new Dictionary<string, object> { { "alt", "Edit" } })
+
+                        @Ajax.PolymerPaperActionIcon("delete", "Delete", controller,
+                 routeValues: new
+                 {
+                     SortOrder = ViewBag.SortOrder,
+                     SortDirection = ViewBag.SortDirection,
+                     page = ViewBag.ActualPage,
+                     id = GenericHelpers.Base64Encode(item.Id),
+                     search = ViewBag.Search
+                 },
+                 options: StandardAjaxOptions.AjaxOptions("GET", "alertContent", false, "ShowAlert()"),
+                 listHtmlAttributes: new Dictionary<string, object> { { "alt", "Delete" } })
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="container-fluid">
+        <div class="col-md-11">
+            <ul class="pagination">
+                @if ((int)ViewBag.ActualPage > 3)
+                {
+                    <li>
+                        @Ajax.ActionLink("<<", "Index", "HitList",
+                          new
+                          {
+                              page = 1,
+                              SortOrder = ViewBag.SortOrder,
+                              SortDirection = ViewBag.SortDirection,
+                              search = ViewBag.Search
+                          }, StandardAjaxOptions.AjaxOptions(true))
+                    </li>
+                }
+                @if ((int)ViewBag.ActualPage > 1)
+                {
+                    <li>
+                        @Ajax.ActionLink("<", "Index", "HitList",
+                          new
+                          {
+                              page = (int)ViewBag.ActualPage - 1,
+                              SortOrder = ViewBag.SortOrder,
+                              SortDirection = ViewBag.SortDirection,
+                              search = ViewBag.Search
+                          }, StandardAjaxOptions.AjaxOptions(true))
+                    </li>
+                }
+                @if (ViewBag.ActualPage > 3)
+                {
+                    for (int i = (int)ViewBag.ActualPage - 2;
+                        i < (int)ViewBag.ActualPage + 3 && i <= (int)ViewBag.TotalPage; i++)
+                    {
+                        if (i != (int)ViewBag.ActualPage)
+                        {
+                            <li>
+                                @Ajax.ActionLink(i.ToString(), "Index", "HitList",
+                                    new
+                                    {
+                                        page = i,
+                                        SortOrder = ViewBag.SortOrder,
+                                        SortDirection = ViewBag.SortDirection,
+                                        search = ViewBag.Search
+                                    }, StandardAjaxOptions.AjaxOptions(true))
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="active">
+                                <a href="#">@i.ToString()</a>
+                            </li>
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 1; i < 6 && i <= (int)ViewBag.TotalPage; i++)
+                    {
+                        if (i != (int)ViewBag.ActualPage)
+                        {
+                            <li>
+                                @Ajax.ActionLink(i.ToString(), "Index", "HitList",
+                                    new
+                                    {
+                                        page = i,
+                                        SortOrder = ViewBag.SortOrder,
+                                        SortDirection = ViewBag.SortDirection,
+                                        search = ViewBag.Search
+                                    }, StandardAjaxOptions.AjaxOptions(true))
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="active">
+                                <a href="#">@i.ToString()</a>
+                            </li>
+                        }
+                    }
+                }
+                @if ((int)ViewBag.ActualPage < (int)ViewBag.TotalPage)
+                {
+                    <li>
+                        @Ajax.ActionLink(">", "Index", "HitList",
+                               new
+                               {
+                                   page = (int)ViewBag.ActualPage + 1,
+                                   SortOrder = ViewBag.SortOrder,
+                                   SortDirection = ViewBag.SortDirection,
+                                   search = ViewBag.Search
+                               }, StandardAjaxOptions.AjaxOptions(true))
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="col-md-1 col-xs-4 col-sm-2">
+            <div class="horizontal-section">
+                <paper-dropdown-menu>
+                    @Ajax.PolymerPaperTabGroup("Index", "HitList", routeValues: null,
+options: new AjaxOptions()
+{
+    HttpMethod = "GET",
+    UpdateTargetId = "content",
+    LoadingElementId = "loader"
+},
+selectItems: (IEnumerable<SelectListItem>)ViewBag.PageSizeList,
+listHtmlAttributes: new Dictionary<string, object> { { "id", "pageSize" }, { "class", "dropdown-content" } })
+                </paper-dropdown-menu>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">
+        No record found!
+    </div>
+}
+
+<script>
+    window.scrollTo(0, 0);
+</script>

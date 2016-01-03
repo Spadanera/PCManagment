@@ -1,0 +1,84 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using Microsoft.AspNet.Identity;
+
+namespace RavenDB.AspNet.Identity
+{
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+    public class HitList : Attribute
+    {
+        public bool Hit { get; set; }
+        public string HitMobile { get; set; }
+        public bool Ordered { get; set; }
+
+        public HitList(bool hit)
+        {
+            this.Hit = hit;
+            this.HitMobile = hit ? "" : "mobileHide";
+            this.Ordered = hit;
+        }
+
+        public HitList(bool hit, bool hitMobile)
+        {
+            this.Hit = hit;
+            this.HitMobile = hitMobile ? "" : "mobileHide";
+            this.Ordered = hit;
+        }
+
+        public HitList(bool hit, bool hitMobile, bool ordered)
+        {
+            this.Hit = hit;
+            this.HitMobile = hitMobile ? "" : "mobileHide";
+            this.Ordered = ordered;
+        }
+    }
+
+    internal static class Util
+    {
+        internal static string ToHex(byte[] bytes)
+        {
+            StringBuilder sb = new StringBuilder(bytes.Length*2);
+            for (int i = 0; i < bytes.Length; i++)
+                sb.Append(bytes[i].ToString("x2"));
+            return sb.ToString();
+        }
+
+        internal static byte[] FromHex(string hex)
+        {
+            if (hex == null)
+                throw new ArgumentNullException("hex");
+            if (hex.Length%2 != 0)
+                throw new ArgumentException("Hex string must be an even number of characters to convert to bytes.");
+
+            byte[] bytes = new byte[hex.Length/2];
+
+            for (int i = 0, b = 0; i < hex.Length; i += 2, b++)
+                bytes[b] = Convert.ToByte(hex.Substring(i, 2), 16);
+
+            return bytes;
+        }
+
+        internal static IList<T> ToIList<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable.ToList();
+        }
+
+        internal static string GetLoginId(UserLoginInfo login)
+        {
+            using (var sha = new SHA1CryptoServiceProvider())
+            {
+                byte[] clearBytes = Encoding.UTF8.GetBytes(login.LoginProvider + "|" + login.ProviderKey);
+                byte[] hashBytes = sha.ComputeHash(clearBytes);
+                return "IdentityUserLogins/" + Util.ToHex(hashBytes);
+            }
+        }
+
+        internal static string GetIdentityUserByUserNameId(string userName)
+        {
+            return string.Format("IdentityUserByUserNames/{0}", userName);
+        }
+    }
+}

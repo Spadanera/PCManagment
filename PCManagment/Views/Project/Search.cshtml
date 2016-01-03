@@ -1,0 +1,61 @@
+﻿@using MvcPWy.Models
+@model MvcPWy.Models.Project
+@*<paper-dialog id="searchModal" modal>*@
+<h3>Search Projects</h3>
+@*<paper-dialog-scrollable>*@
+@using (Ajax.BeginForm(StandardAjaxOptions.AjaxOptions("POST", "content", true, "HideDialog('#search')")))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-md-6 col-sm-6">
+            @Html.PolymerTextBoxFor(model => model.Code, "text")
+            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+
+            @Html.PolymerTextBoxFor(model => model.Sqm, "text")
+            @Html.ValidationMessageFor(model => model.Sqm, "", new { @class = "text-danger" })
+
+            @Html.PolymerTextBoxFor(model => model.Region, "text")
+            @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
+
+            @Html.PolymerTextBoxFor(model => model.Town, "text")
+            @Html.ValidationMessageFor(model => model.Town, "", new { @class = "text-danger" })
+
+            <div class="row" style="margin-top: 25px;">
+                <div class="col-md-4">
+                    @Html.PolymerCheckBoxFor(m => m.Order)
+                </div>
+                <div class="col-md-4">
+                    @Html.PolymerCheckBoxFor(m => m.Offer)
+                </div>
+                <div class="col-md-4">
+                    @Html.PolymerCheckBoxFor(m => m.Claim)
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            @Html.PolymerTextBoxFor(model => model.Name, "text")
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
+            @Html.PolymerTextBoxFor(model => model.Country, "text")
+            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+
+            @Html.PolymerTextBoxFor(model => model.Province, "text")
+            @Html.ValidationMessageFor(model => model.Province, "", new { @class = "text-danger" })
+
+            @Html.PolymerTextBoxFor(model => model.Date, "text")
+            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+
+            @Html.PolymerTextBoxFor(model => model.Updated, "text")
+            @Html.ValidationMessageFor(model => model.Updated, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="buttons text-right">
+            <paper-button onclick="HideDialog('#search')">Cancel</paper-button>
+            <paper-button onclick="submitForm('#searchSubmit')" dialog-confirm autofocus>OK</paper-button>
+            <input type="submit" class="hidden" value="" id="searchSubmit" />
+        </div>
+    </div>
+}

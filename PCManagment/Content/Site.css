@@ -1,0 +1,238 @@
+﻿body {
+    /*padding-top: 50px;*/
+    padding-bottom: 20px;
+    height: 100%;
+    font-family: "Roboto","Noto",sans-serif;
+}
+
+html {
+    height: 100%;
+}
+
+.row.home {
+    margin-top: 30px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+@media (max-width: 960px) {
+    .mobileHide {
+        display: none;
+    }
+}
+
+.table > tbody > tr > th > a {
+    color: black;
+    text-decoration: underline;
+}
+
+footer p a {
+    color: black;
+    text-decoration: underline;
+}
+
+.pager {
+    border-color: black;
+    background-color: white;
+    color: black;
+    width: 40px;
+    height: 30px;
+}
+
+    .pager > a {
+        color: black;
+    }
+
+.pager {
+    float: left;
+    border-color: black;
+    margin: 0;
+    padding-top: 5px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-radius: 2px;
+    border: 1px solid black;
+}
+
+.pager-container:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+.pager-container:last-child {
+    border-radius: 0px 8px 8px 0px;
+}
+
+.pager-container {
+    border: 2px solid black;
+    float: left;
+    border-radius: 6px;
+}
+
+.pager:hover {
+    background-color: lightgrey;
+}
+
+.pager.pg-selected {
+    border-color: black;
+    background-color: black;
+    color: white;
+}
+
+#bg_dialog {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    z-index: 100;
+    background-color: black;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; /* IE 8 */
+    filter: alpha(opacity=70); /* IE 5-7 */
+    -moz-opacity: 0.7; /* Netscape */
+    -khtml-opacity: 0.7; /* Safari 1.x */
+    opacity: 0.7; /* Good browsers */
+}
+
+#search {
+    display: none;
+    position: absolute;
+    z-index: 200;
+    background-color: white;
+    padding: 10px 25px;
+    border-radius: 3px;
+    box-shadow: 0px 5px 5px 2px;
+}
+
+@media (min-width: 960px) {
+    #search {
+        margin-left: -480px;
+        margin-top: -230px;
+        height: 460px;
+        width: 960px;
+        top: 50%;
+        left: 50%;
+    }
+}
+
+@media (max-width: 959px) {
+    #search {
+        left: 0;
+        width: 100%;
+        top: 52px;
+        border-radius: 0;
+    }
+}
+
+.pagination > .active > a {
+    border-color: #405058 !important;
+    background-color: #405058 !important;
+    border-radius: 50px !important;
+}
+
+.pagination > li:not(.active) > a {
+    color: black !important;
+    margin-left: 3px;
+    border-radius: 50px;
+}
+
+.addElement {
+    margin-bottom: 5px;
+}
+
+#pageSize {
+    padding-left: 4px !important;
+}
+
+#loader {
+    clear: both;
+    display: none;
+    position: fixed;
+}
+
+/*@media (min-width: 960px) {
+    #loader {
+        background-image: url(AjaxLoaderGif/ajax_loader_gray_256.gif);
+        width: 256px;
+        height: 256px;
+        top: 50%;
+        left: 50%;
+        margin-left: -128px;
+        margin-top: -128px;
+    }
+}
+
+@media (max-width: 959px) {
+    #loader {
+        background-image: url(AjaxLoaderGif/ajax_loader_gray_64.gif);
+        width: 64px;
+        height: 64px;
+        top: 50%;
+        left: 50%;
+        margin-left: -32px;
+        margin-top: -32px;
+    }
+}*/
+
+#loader {
+        z-index: 3000;
+        width: 64px;
+        height: 64px;
+        top: 40%;
+        left: 50%;
+        margin-left: -32px;
+        margin-top: -32px;
+    }
+
+
+.navbar {
+    min-height: 20px;
+}
+
+.navbar-brand {
+    height: 40px;
+    padding: 10px;
+}
+
+.navbar-nav > li > a {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.navbar-toggle {
+    padding: 0;
+    margin: 0;
+    border: 0px;
+}
+
+.icon-small {
+    background-color: red;
+    border-radius: 50px;
+    color: white;
+    left: 85%;
+    top: 85%;
+    position: fixed;
+    z-index: 50;
+    width:50px;
+    height: 50px;
+}
+
+.navbar-inverse {
+            border-color: transparent !important;
+        }
+
+.paper-tabs-0 #selectionBar.paper-tabs {
+    background-color: red !important;
+}
