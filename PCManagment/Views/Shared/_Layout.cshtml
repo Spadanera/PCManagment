@@ -50,9 +50,12 @@
                        StandardAjaxOptions.AjaxOptions("GET", "content", true, "ToggleMobileMenu()"), null)
                     @Ajax.PolymerPaperTab("CONTACT", "Index", "HitList", new { Class = "Contact" },
                        StandardAjaxOptions.AjaxOptions("GET", "content", true, "ToggleMobileMenu()"), null)
-                    <paper-tab>DISTRIBUTOR</paper-tab>
-                    <paper-tab>DETAIL</paper-tab>
-                    <paper-tab>WARNING</paper-tab>
+                    @Ajax.PolymerPaperTab("DISTRIBUTOR", "Index", "HitList", new { Class = "Distributor" },
+                       StandardAjaxOptions.AjaxOptions("GET", "content", true, "ToggleMobileMenu()"), null)
+                    @Ajax.PolymerPaperTab("DETAIL", "Index", "HitList", new { Class = "Detail" },
+                       StandardAjaxOptions.AjaxOptions("GET", "content", true, "ToggleMobileMenu()"), null)
+                    @Ajax.PolymerPaperTab("WARNING", "Index", "HitList", new { Class = "Warning" },
+                       StandardAjaxOptions.AjaxOptions("GET", "content", true, "ToggleMobileMenu()"), null)
                     @Ajax.PolymerPaperTab("USER", "Index", "HitList", new { Class = "User" },
                        StandardAjaxOptions.AjaxOptions("GET", "content", true, "ToggleMobileMenu()"), null)
                 </paper-tabs>

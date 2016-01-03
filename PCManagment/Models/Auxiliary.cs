@@ -13,7 +13,6 @@ using RavenDB.AspNet.Identity;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-using RavenDB.AspNet.Identity;
 
 namespace MvcPWy.Models
 {

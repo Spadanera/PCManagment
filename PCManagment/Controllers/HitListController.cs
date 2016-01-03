@@ -73,6 +73,18 @@ namespace MvcPWy.Controllers
                     results = GetHitList.GetPage<ApplicationUser, ApplicationUser>(ravenDb, skippedResult, Convert.ToInt32(pageSize),
                         "Id", SortOrder, SortDirection, search, out statsRef);
                     break;
+                case "Distributor":
+                    results = GetHitList.GetPage<Distributor, Distributor>(ravenDb, skippedResult, Convert.ToInt32(pageSize),
+                        "Id", SortOrder, SortDirection, search, out statsRef);
+                    break;
+                case "Detail":
+                    results = GetHitList.GetPage<ProjectDetail, ProjectDetail>(ravenDb, skippedResult, Convert.ToInt32(pageSize),
+                        "Id", SortOrder, SortDirection, search, out statsRef);
+                    break;
+                case "Warning":
+                    results = GetHitList.GetPage<Warning, Warning>(ravenDb, skippedResult, Convert.ToInt32(pageSize),
+                        "Id", SortOrder, SortDirection, search, out statsRef);
+                    break;
                 default:
                     results = GetHitList.GetPage<Project, Project>(ravenDb, skippedResult, Convert.ToInt32(pageSize),
                         "Id", SortOrder, SortDirection, search, out statsRef);

@@ -1,42 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
+using RavenDB.AspNet.Identity;
 
 namespace MvcPWy.Models
 {
-    public class Company : IContact
+    public interface ICompany
+    {
+        [Key]
+        string Id { get; set; }
+        string Name { get; set; }
+        List<Contact> Contacts { get; set; }
+    }
+
+    public class Company : IIndex, ICompany, IContact
     {
         [Key]
         public string Id { get; set; }
-        public string Title { get; set; }
+        [Display(Name = "Company")]
+        [HitList(true)]
         public string Name { get; set; }
-        public string Surname { get; set; }
+        public List<Contact> Contacts { get; set; }
+
         public string Address { get; set; }
         public string ZIP { get; set; }
         public string City { get; set; }
         public string Province { get; set; }
         public string Region { get; set; }
         public string Country { get; set; }
-        [Display(Name = "Document sent")]
-        public bool DocumentSent { get; set; }
-        [Display(Name = "Notified to distributor")]
-        public bool NotifiedToDistributor { get; set; }
-        public bool Handled { get; set; }
-        [Display(Name = "Contact type")]
-        public ContactType ContactType { get; set; }
-        [Editable(false)]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime Added { get; set; }
-        [Editable(false)]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime Updated { get; set; }
-        public ContactDetail[] Details { get; set; }
-        public Warning[] Warnings { get; set; }
 
-        Contact[] Contacts { get; set; }
+        public ContactType ContactType { get; set; }
+
+        public DateTime Added { get; set; }
+        public DateTime Updated { get; set; }
+
+        public List<ContactDetail> Details { get; set; }
+
+        public List<string> Projects { get; set; }
+    }
+
+    public class Distributor : IIndex, ICompany, IContact
+    {
+        [Key]
+        public string Id { get; set; }
+        [Display(Name = "Distributor")]
+        [HitList(true)]
+        public string Name { get; set; }
+        public Contact DefaultContact { get; set; }
+        public List<Contact> Contacts { get; set; }
+
+        public string Address { get; set; }
+        public string ZIP { get; set; }
+        public string City { get; set; }
+        public string Province { get; set; }
+        public string Region { get; set; }
+        public string Country { get; set; }
+
+        public ContactType ContactType { get; set; }
+
+        public DateTime Added { get; set; }
+        public DateTime Updated { get; set; }
+
+        public List<ContactDetail> Details { get; set; }
+
+        public List<string> Projects { get; set; }
     }
 }

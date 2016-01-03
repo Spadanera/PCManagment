@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
 using RavenDB.AspNet.Identity;
-using System.ComponentModel;
 
 namespace MvcPWy.Models
 {
@@ -27,8 +24,6 @@ namespace MvcPWy.Models
         [Display(Name ="sqm")]
         [HitList(true, true, true)]
         public int Sqm { get; set; }
-        [Display(Name ="Project type")]
-        public ProjectType[] ProjectTypes { get; set; }
 
         [HitList(true, false)]
         public string Country { get; set; }
@@ -55,7 +50,12 @@ namespace MvcPWy.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Updated { get; set; }
 
-        Contact[] Contacts { get; set; }
+        public List<string> Contacts { get; set; }
+
+        public void ToggleState()
+        {
+            this.State = this.State == State.Open ? State.Close : State.Open;
+        }
 
     }
 
@@ -65,15 +65,21 @@ namespace MvcPWy.Models
         Close
     }
 
-    public class ProjectType
+    public class ProjectDetail : IIndex
     {
-        public string Type { get; set; }
-        public ProjectTypeDescription[] Descriptions { get; set; }
+        [Key]
+        public string Id { get; set; }
+        [HitList(true)]
+        public string Name { get; set; }
+        public List<ProjectDetailDesription> ProjectDetailDesription { get; set; }
     }
 
-    public class ProjectTypeDescription
+    public class ProjectDetailDesription
     {
-        public string ProjectType { get; set; }
+        [Key]
+        public string Id { get; set; }
+        public string DetailId { get; set; }
+        [HitList(true)]
         public string Description { get; set; }
     }
 }
