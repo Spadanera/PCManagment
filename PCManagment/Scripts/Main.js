@@ -53,3 +53,32 @@ function ShowAlert() {
         dialog.toggle();
     }
 }
+
+function showAddExtraButton()
+{
+    $("#bg_dialog").css("z-index", 48).show().click(function() {
+        hideAddExtraButton();
+    });
+    var positions = ["0", "75%", "65%", "55%", "45%", "35%"];
+    $("paper-icon-button").each(function (index) {
+        if (index != 0) {
+            $(this).animate({ top: positions[index] }).click(function () {
+                hideAddExtraButton();
+            });
+        }
+        else
+            $(this).css("z-index", 30);
+    });
+}
+
+function hideAddExtraButton() {
+    var positions = ["0", "75%", "65%", "55%", "45%", "35%"];
+    $("paper-icon-button").each(function (index) {
+        if (index != 0) {
+            $(this).animate({ top: "85%" });
+        }
+        else
+            $(this).css("z-index", 50);
+    });
+    $("#bg_dialog").css("z-index", 100).hide();
+}

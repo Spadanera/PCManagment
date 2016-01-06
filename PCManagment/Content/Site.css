@@ -231,8 +231,13 @@ footer p a {
 
 .navbar-inverse {
             border-color: transparent !important;
+            background-color: transparent !important;
         }
 
 .paper-tabs-0 #selectionBar.paper-tabs {
     background-color: red !important;
+}
+
+.custom-hidden {
+    z-index: 49;
 }

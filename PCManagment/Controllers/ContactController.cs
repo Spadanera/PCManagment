@@ -34,17 +34,19 @@ namespace MvcPWy.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Create(Contact contact, string SortOrder, string SortDirection, int? page, string search)
+        public ActionResult Create(Contact contact, string SortOrder, string SortDirection, int? page, 
+            string search)
         {
             if (ModelState.IsValid)
             {
-                TempData["IsValid"] = "";
                 var ravenDB = HttpContext.GetOwinContext().Get<IDocumentSession>();
                 contact.Updated = DateTime.Now;
                 ravenDB.Store(contact);
                 ravenDB.SaveChanges();
-                return RedirectToAction("Index", "HitList", new
+                TempData["IsValid"] = "";
+                return RedirectToAction("Edit", new
                 {
+                    id = GenericHelpers.Base64Encode(contact.Id),
                     SortOrder = SortOrder,
                     SortDirection = SortDirection,
                     page = page,
@@ -57,6 +59,20 @@ namespace MvcPWy.Controllers
         }
 
         [HttpGet]
+        [Authorize]
+        public PartialViewResult Edit(string id, string SortOrder, string SortDirection, int? page,
+            string search)
+        {
+            //if (id == null)
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            id = GenericHelpers.Base64Decode(id);
+            var ravenDB = HttpContext.GetOwinContext().Get<IDocumentSession>();
+            var contact = ravenDB.Load<Contact>(id);
+            //if (contact == null)
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            return PartialView(contact);
+        }
+
         [Authorize]
         public ActionResult Delete(string id)
         {
